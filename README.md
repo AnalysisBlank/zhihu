@@ -1,5 +1,5 @@
 # 知乎效果
-
+   ![ABC](https://github.com/xiangzhihong/zhihu/blob/master/screen/device-2016-03-17-180852.png) 
    ![ABC](https://github.com/xiangzhihong/zhihu/blob/master/screen/device-2016-03-02-171115.png) 
    ![ABC](https://github.com/xiangzhihong/zhihu/blob/master/screen/device-2016-03-02-171136.png) 
    ![ABC](https://github.com/xiangzhihong/zhihu/blob/master/screen/device-2016-03-02-171146.png) 
