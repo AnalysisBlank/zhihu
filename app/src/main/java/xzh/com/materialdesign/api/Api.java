@@ -6,4 +6,6 @@ package xzh.com.materialdesign.api;
 public class Api {
    //启动动画url地址
     public static final String URL_SPLASH_IMG = "http://news-at.zhihu.com/api/4/start-image/";
+  //测试的详情地址
+    public static final String DETAIL_URL = "http://news-at.zhihu.com/api/4/news/3892357";
 }
