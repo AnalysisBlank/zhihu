@@ -4,9 +4,14 @@ import android.app.Application;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import java.util.UUID;
 
 import xzh.com.materialdesign.api.AppConfig;
+import xzh.com.materialdesign.utils.FileManager;
+import xzh.com.materialdesign.utils.ImageUtil;
 import xzh.com.materialdesign.utils.StringUtils;
 
 /**
@@ -25,6 +30,12 @@ public class MaterialAplication extends Application{
     public void onCreate() {
         super.onCreate();
         appContext=this;
+        init();
+    }
+
+    private void init() {
+//        ImageUtil.init(this, FileManager.getHomeDir());
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
     }
 
     public PackageInfo getPackageInfo() {

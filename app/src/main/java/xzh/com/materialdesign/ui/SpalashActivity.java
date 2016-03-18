@@ -12,24 +12,36 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import xzh.com.materialdesign.R;
+import xzh.com.materialdesign.api.Api;
+import xzh.com.materialdesign.utils.ImageUtil;
+import xzh.com.materialdesign.utils.SysUtil;
 import xzh.com.materialdesign.utils.UIHelper;
 
 /**
  * Created by xiangzhihong on 2016/3/2 on 12:21.
  */
 public class SpalashActivity extends AppCompatActivity {
-    @InjectView(R.id.spalash_image)
-    ImageView spalashImage;
+    @InjectView(R.id.sd_splash)
+    ImageView sd_splash;
+    @InjectView(R.id.tv_author)
+    TextView tv_author;
 
     private Context mContext;
-    private Animation mFadeIn;
-    private Animation mFadeInScale;
-    private Animation mFadeOut;
-    private Drawable mPicture;
+    private Animation animation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,77 +54,69 @@ public class SpalashActivity extends AppCompatActivity {
 
     private void init() {
         initAnimation();
-        initBg();
-        initAnimationLisener();
-        //默认启动渐变动画
-        spalashImage.startAnimation(mFadeIn);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void initBg() {
-        mPicture = getResources().getDrawable(R.drawable.spalash_bg);
-        spalashImage.setImageDrawable(mPicture);
-
     }
 
     private void initAnimation() {
-        mFadeIn = AnimationUtils.loadAnimation(mContext,
-                R.anim.spalash_fade_in);
-        mFadeIn.setDuration(1000);
-        mFadeInScale = AnimationUtils.loadAnimation(mContext,
-                R.anim.spalash_fade_in_scale);
-        mFadeInScale.setDuration(6000);
-        mFadeOut = AnimationUtils.loadAnimation(mContext,
-                R.anim.spalash_fade_out);
-        mFadeOut.setDuration(1000);
+        animation= AnimationUtils.loadAnimation(this,R.anim.anim_splash);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                startActivity(new Intent(mContext, MainActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        String dimen;
+        int width = SysUtil.getScreenWidth(this);
+        if (width >= 900) {
+            dimen = "1080*1776";
+        } else if (width >= 600 && width < 900) {
+            dimen = "720*1184";
+        } else if (width >= 400 && width < 600) {
+            dimen = "480*728";
+        } else {
+            dimen = "320*432";
+        }
+        getImage(Api.URL_SPLASH_IMG + dimen);
+
     }
 
-    /**
-     * 渐变动画-->放大动画-->渐隐动画
-     */
-    private void initAnimationLisener() {
-        mFadeIn.setAnimationListener(new AnimationListener() {
-
-            public void onAnimationStart(Animation animation) {
-
+    private void getImage(String s) {
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.get(mContext,s,new AsyncHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, String content) {
+                super.onSuccess(statusCode, content);
+                bindView(content);
             }
 
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-
-            public void onAnimationEnd(Animation animation) {
-                spalashImage.startAnimation(mFadeInScale);
-            }
-        });
-        mFadeInScale.setAnimationListener(new AnimationListener() {
-
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-
-            public void onAnimationEnd(Animation animation) {
-                spalashImage.startAnimation(mFadeOut);
-            }
-        });
-        mFadeOut.setAnimationListener(new AnimationListener() {
-
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-
-            public void onAnimationEnd(Animation animation) {
-                UIHelper.openClass(mContext,MainActivity.class);
+            @Override
+            public void onFailure(Throwable error, String content) {
+                super.onFailure(error, content);
             }
         });
     }
 
+    private void bindView(String content) {
+        try {
+            JSONObject jsonObject = new JSONObject(content);
+            String img = jsonObject.optString("img");
+            String text = jsonObject.optString("text");
+            ImageLoader.getInstance().displayImage(img,sd_splash);
+            tv_author.setText(text);
+            sd_splash.startAnimation(animation);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
