@@ -9,6 +9,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+　　　　<include layout="@layout/topbar_layout"/>
+
         <FrameLayout
             android:id="@+id/block_story_img"
             android:layout_width="match_parent"

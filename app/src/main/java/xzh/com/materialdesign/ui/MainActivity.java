@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_settings:
+            case R.id.action_theme:
                 UIHelper.setting(mContext);
                 break;
             case R.id.action_about:

@@ -16,9 +16,9 @@
         android:title="通知"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_theme"
         android:orderInCategory="100"
-        android:title="设置"
+        android:title="更换皮肤"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_about"

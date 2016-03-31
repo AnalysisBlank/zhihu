@@ -33,4 +33,15 @@
         <item name="android:layout_width">35dip</item>
         <item name="android:layout_height">35dip</item>
     </style>
+
+    <style name="title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="z_depth">z_depth2</item>
+        <item name="z_depth_paddingLeft">z_depth0</item>
+        <item name="z_depth_paddingTop">z_depth0</item>
+        <item name="z_depth_paddingRight">z_depth0</item>
+        <item name="z_depth_paddingBottom">z_depth5</item>
+    </style>
+
 </resources>

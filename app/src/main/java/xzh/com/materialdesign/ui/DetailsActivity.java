@@ -7,21 +7,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import xzh.com.materialdesign.R;
 import xzh.com.materialdesign.api.Api;
 import xzh.com.materialdesign.model.DetailEntity;
-import xzh.com.materialdesign.utils.ImageUtil;
 import xzh.com.materialdesign.utils.JsonUtil;
 import xzh.com.materialdesign.view.UWebView;
 
@@ -42,6 +43,12 @@ public class DetailsActivity extends AppCompatActivity {
     LinearLayout blockRecommenders;
     @InjectView(R.id.webview)
     UWebView webview;
+    @InjectView(R.id.nav_back)
+    ImageButton navBack;
+    @InjectView(R.id.nav_title)
+    TextView navTitle;
+    @InjectView(R.id.scrollView)
+    ScrollView scrollView;
 
     private Context mContext;
 
@@ -55,11 +62,18 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     private void init() {
+        navTitle.setText("详情");
+        navBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         getDetailData();
     }
 
     private void getDetailData() {
-       String uri= Api.DETAIL_URL;
+        String uri = Api.DETAIL_URL;
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(mContext, uri, new AsyncHttpResponseHandler() {
             @Override
@@ -78,7 +92,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void bindView(String data) {
         DetailEntity news = JsonUtil.getEntity(data, DetailEntity.class);
         if (!TextUtils.isEmpty(news.image)) {
-            ImageLoader.getInstance().displayImage(news.image,sdNewsImg);
+            ImageLoader.getInstance().displayImage(news.image, sdNewsImg);
         } else {
             blockStoryImg.setVisibility(View.GONE);
         }
@@ -87,11 +101,11 @@ public class DetailsActivity extends AppCompatActivity {
         if (news.recommenders == null) {
             blockRecommenders.setVisibility(View.GONE);
         } else {
-            blockRecommenders.removeViews(1, blockRecommenders.getChildCount()-1);
+            blockRecommenders.removeViews(1, blockRecommenders.getChildCount() - 1);
             for (DetailEntity.Recommender rec : news.recommenders) {
                 ImageView avatar = (ImageView) View.inflate(mContext, R.layout.item_recommender, null);
-                String avertUri=rec.avatar;
-                ImageLoader.getInstance().displayImage(avertUri,avatar);
+                String avertUri = rec.avatar;
+                ImageLoader.getInstance().displayImage(avertUri, avatar);
                 blockRecommenders.addView(avatar);
             }
         }
