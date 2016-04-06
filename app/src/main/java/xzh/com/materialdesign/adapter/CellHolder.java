@@ -1,5 +1,6 @@
 package xzh.com.materialdesign.adapter;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,8 +20,8 @@ public class CellHolder extends RecyclerView.ViewHolder {
     LinearLayout itemView;
     @InjectView(R.id.item_cator)
     TextView itemCator;
-    @InjectView(R.id.item_title)
-    TextView itemTitle;
+    @InjectView(R.id.cardView)
+    CardView cardView;
     @InjectView(R.id.item_content)
     TextView itemContent;
     @InjectView(R.id.item_image)

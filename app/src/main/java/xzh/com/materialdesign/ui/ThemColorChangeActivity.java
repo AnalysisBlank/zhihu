@@ -7,6 +7,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.ypy.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import xzh.com.materialdesign.R;
@@ -68,6 +70,7 @@ public class ThemColorChangeActivity extends BaseActivity implements View.OnClic
             if (v == selectPanel.getChildAt(i)) {
                 preview.setBackgroundColor(ThemeManager.BACKGROUNDS[i]);
                 ThemeManager.with(this).saveColor(i);
+                EventBus.getDefault().post(ThemeManager.with(this).getCurrentColor());
                 break;
             }
         }

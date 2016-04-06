@@ -1,5 +1,6 @@
 package xzh.com.materialdesign.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import java.util.List;
 import butterknife.InjectView;
 import xzh.com.materialdesign.R;
 import xzh.com.materialdesign.ui.DetailsActivity;
+import xzh.com.materialdesign.utils.IntroUtils;
 import xzh.com.materialdesign.view.CircleImageView;
 
 /**
@@ -43,7 +45,7 @@ public class HomeAdapter extends RecyclerView.Adapter<CellHolder> {
          }else {
              cellHolder.itemCator.setText("知乎回答");
          }
-
+        initIntro(cellHolder,i);
        cellHolder.itemView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -67,6 +69,12 @@ public class HomeAdapter extends RecyclerView.Adapter<CellHolder> {
     public void clear() {
         mList.clear();
         notifyDataSetChanged();
+    }
+
+    private static final String INTRO_CARD = "material_intro";
+    private void initIntro(CellHolder cellHolder, int i) {
+        if(i==0)
+        IntroUtils.showIntro((Activity) context,cellHolder.cardView,INTRO_CARD,"This is card! Hello There. You can set this text!");
     }
 
 

@@ -37,4 +37,6 @@ dependencies {
     compile files('libs/imagepipeline-base-v0.9.0.jar')
     compile files('libs/universal-image-loader-1.9.4.jar')
     compile files('libs/gson-2.2.4.jar')
+    compile files('libs/EventBus2.4.jar')
+    compile project(':materialintro')
 }

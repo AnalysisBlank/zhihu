@@ -35,8 +35,8 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-  <!--  <xzh.com.materialdesign.view.TitleBar
+  <xzh.com.materialdesign.view.TitleBar
     android:id="@+id/title_bar"
-    style="@style/title" />-->
+    style="@style/title" />
 
 </RelativeLayout>

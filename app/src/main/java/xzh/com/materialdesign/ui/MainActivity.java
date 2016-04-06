@@ -1,10 +1,13 @@
 package xzh.com.materialdesign.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,14 +16,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.ypy.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 import xzh.com.materialdesign.R;
 import xzh.com.materialdesign.adapter.HomeAdapter;
+import xzh.com.materialdesign.utils.ActivityHelper;
+import xzh.com.materialdesign.utils.IntroUtils;
 import xzh.com.materialdesign.utils.UIHelper;
 import xzh.com.materialdesign.view.NavigationDrawerCallbacks;
 import xzh.com.materialdesign.view.NavigationDrawerFragment;
 import xzh.com.materialdesign.view.PullCallback;
 import xzh.com.materialdesign.view.PullToLoadView;
+import xzh.com.materialdesign.view.ThemeManager;
 
 @SuppressLint("NewApi")
 public class MainActivity extends AppCompatActivity implements
@@ -43,10 +51,16 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_topdrawer);
         ButterKnife.inject(this);
+        EventBus.getDefault().register(this);
         mContext = MainActivity.this;
+        init();
+    }
+
+    private void init() {
         initViews();
         initEvent();
     }
+
 
     private void initEvent() {
         RecyclerView mRecyclerView = mPullToLoadView.getRecyclerView();
@@ -87,10 +101,13 @@ public class MainActivity extends AppCompatActivity implements
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mToolbar.setBackgroundColor(ThemeManager.with(this).getCurrentColor());
         mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
                 .findFragmentById(R.id.fragment_drawer);
         mNavigationDrawerFragment.setup(R.id.fragment_drawer,
                 (DrawerLayout) findViewById(R.id.drawer), mToolbar);
+         DrawerLayout draw= (DrawerLayout) findViewById(R.id.drawer);
+         mNavigationDrawerFragment.setDrawerLayout(draw);
         mPullToLoadView = (PullToLoadView) findViewById(R.id.pullToLoadView);
 
     }
@@ -141,7 +158,9 @@ public class MainActivity extends AppCompatActivity implements
             case 5:
                 mTitle = "私信";
                 break;
-
+            case 6:
+                ActivityHelper.startActivity(this,ThemColorChangeActivity.class);
+             break;
                 default:
                 mTitle="知乎";
                 break;
@@ -180,5 +199,11 @@ public class MainActivity extends AppCompatActivity implements
                 nextPage = page + 1;
             }
         }, 3000);
+    }
+
+    public void onEventMainThread(int color) {
+       if (color!=-1){
+           mToolbar.setBackgroundColor(color);
+       }
     }
 }
