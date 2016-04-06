@@ -4,7 +4,9 @@
    ![ABC](https://github.com/xiangzhihong/zhihu/blob/master/screen/device-2016-03-02-171136.png) 
    ![ABC](https://github.com/xiangzhihong/zhihu/blob/master/screen/device-2016-03-02-171146.png) 
    ![ABC]( https://github.com/xiangzhihong/zhihu/blob/master/screen/device-2016-03-31-154907.png) 
-   
+# V2.0
+  新增第一次打开的新手引导效果：如果需要研究的请看下面链接：
+  https://github.com/xiangzhihong/MaterialIntroView-master
    
 开源协议
 
